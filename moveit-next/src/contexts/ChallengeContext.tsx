@@ -1,6 +1,6 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
-import challenges from '../../challenges.json';
 import Cookie from 'js-cookie';
+import challenges from '../../challenges.json';
 interface Challenge {
   type: 'body' | 'eye';
   description: string;
@@ -21,14 +21,17 @@ interface ChallengesContextData {
 
 interface ChallengeProviderProps {
   children: ReactNode;
+  level: number;
+  currentExperience: number;
+  challengesCompleted: number;
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
-export function ChallengesProvider({ children }: ChallengeProviderProps) {
-  const [level, setLevel] = useState(1);
-  const [currentExperience, setCurrentExperience] = useState(0);
-  const [challengesCompleted, setChallengesCompleted] = useState(2);
+export function ChallengesProvider({ children, ...rest }: ChallengeProviderProps) {
+  const [level, setLevel] = useState(rest.level ?? 1);
+  const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0);
+  const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0);
 
   const [activeChallenge, setActiveChallenge] = useState(null);
 
